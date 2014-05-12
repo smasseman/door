@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:amq="http://activemq.apache.org/schema/core"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
+			http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+			http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+	<context:component-scan base-package="se.familjensmas.door.web" />
+	<context:component-scan base-package="se.familjensmas.door.jpa.configure" />
+	<mvc:annotation-driven />
+
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**/*.html" />
+			<ref bean="openSessionInViewInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+	<bean name="openSessionInViewInterceptor"
+		class="org.springframework.orm.hibernate4.support.OpenSessionInViewInterceptor"
+		p:sessionFactory-ref="sessionFactory" />
+
+	<bean id="velocityEngine"
+		class="org.springframework.ui.velocity.VelocityEngineFactoryBean"
+		p:resourceLoaderPath="/WEB-INF/templates" p:configLocation="/WEB-INF/velocity.properties" />
+
+	<bean id="velocityConfig"
+		class="org.springframework.web.servlet.view.velocity.VelocityConfigurer"
+		p:velocityEngine-ref="velocityEngine" />
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.velocity.VelocityViewResolver"
+		p:suffix=".html" p:cache="false" p:exposeSpringMacroHelpers="true"
+		p:redirectContextRelative="false" p:contentType="text/html; charset=UTF-8"
+		p:viewClass="org.springframework.web.servlet.view.velocity.VelocityView" />
+
+	<beans profile="default">
+		<bean class="java.lang.String">
+			<constructor-arg value="hejsan" />
+		</bean>
+	</beans>
+
+</beans>

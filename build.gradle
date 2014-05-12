@@ -1,0 +1,125 @@
+buildscript {
+	repositories {
+		maven {
+			url 'https://git.trouthunter.org/artifactory/plugins-release'
+			credentials {
+				username = "${artifactory_user}"
+				password = "${artifactory_password}"
+			}
+		}
+	}
+	dependencies {
+		classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '2.2.3')
+	}
+}
+
+task wrapper(type: Wrapper) { gradleVersion = '1.11' }
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'jetty'
+apply plugin: 'artifactory'
+
+version =  '0.1.0'
+
+artifactory {
+	contextUrl = "${artifactory_contextUrl}"   //The base Artifactory URL if not overridden by the publisher/resolver
+	publish {
+		defaults {  publishPom = false }
+		contextUrl = "https://git.trouthunter.org/artifactory"
+		repository {
+			repoKey = 'libs-release-local'
+			username = "${artifactory_user}"
+			password = "${artifactory_password}"
+			maven = true
+		}
+
+	}
+	resolve {
+		contextUrl = "https://git.trouthunter.org/artifactory"
+		repository {
+			repoKey = 'libs-release'
+			username = "${artifactory_user}"
+			password = "${artifactory_password}"
+			maven = true
+		}
+	}
+}
+
+
+sourceSets {
+	main {
+		java {
+			srcDirs "src/main/java"
+			output.classesDir "bin"
+		}
+	}
+	test {
+		java {
+			srcDirs "src/test/java"
+			output.classesDir "bin"
+		}
+	}
+}
+
+
+repositories {
+	maven {
+		url 'https://git.trouthunter.org/artifactory/plugins-release'
+		credentials {
+			username = "${artifactory_user}"
+			password = "${artifactory_password}"
+		}
+	}
+}
+
+
+dependencies {
+	compile "org.springframework:spring-context:4.0.+",
+			"org.springframework:spring-context-support:4.0.+",
+			"org.springframework:spring-web:4.0.+",
+			"org.springframework:spring-webmvc:4.0.+",
+			"org.springframework:spring-test:4.0.+",
+			"org.springframework:spring-jms:4.0.+",
+			"org.springframework:spring-orm:4.0.+",
+			"org.springframework:spring-tx:4.0.+",
+			"org.springframework:spring-jdbc:4.0.+",
+			"org.hibernate:hibernate-core:4.3.5.Final",
+			"org.javassist:javassist:3.12.1.GA",
+			"javax.validation:validation-api:1.1.+",
+			"org.apache.velocity:velocity:1.7",
+			"org.apache.velocity:velocity-tools:2.0",
+			"org.apache.commons:commons-pool2:2.+",
+			"org.apache.xbean:xbean-spring:3.+",
+			"junit:junit:4.11",
+			"org.mockito:mockito-all:1.9.5",
+			"org.mortbay.jetty:servlet-api:3.+",
+			"ch.qos.logback:logback-classic:1.+",
+			"org.seleniumhq.selenium:selenium-java:2.+",
+			"com.entercash:eccliutils:2.+",
+			"com.entercash:ec-core:1.+",
+			"com.entercash:ec-logcli:1.+",
+			"mysql:mysql-connector-java:5.+"
+			
+	compile('org.apache.activemq:activemq-all:5.9.0') {
+        exclude module: 'slf4j-log4j12'
+    }
+	
+}
+// end::dependencies
+
+jettyRunWar.contextPath = ''
+
+httpPort = 8081
+stopPort = 8091
+stopKey = 'stopKey'
+
+jettyRun { 
+//	 jettyRun.daemon = true
+	reload = "manual"
+	enableAssertions = true
+}
+
+jettyStop {
+
+}

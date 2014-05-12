@@ -1,0 +1,8 @@
+build/
+classes/
+.gradle
+.gradle/
+fil.fil
+jetty.home_IS_UNDEFINED/
+/bin
+/activemq-data

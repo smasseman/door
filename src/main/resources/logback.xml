@@ -1,0 +1,46 @@
+<configuration scan="true" scanPeriod="3 seconds" debug="false">
+
+	<contextName>door</contextName>
+
+	<turboFilter class="com.ec.log.logback.InsertThreadId" />
+
+<!-- 	<appender name="REMOTE" class="com.ec.log.logback.StreamAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+		<serverAddress>logdb</serverAddress>
+	</appender>
+ -->
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${jetty.home}/logs/door_%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+		</rollingPolicy>
+		<encoder class="com.ec.log.logback.ECPatternLayoutEncoder">
+        	<charset>utf-8</charset>
+            <pattern>%d{HH:mm:ss} %13mdc{threadid} %5level [%40.40logger{40}] %msg %ex %n </pattern>
+		</encoder>
+	</appender>
+
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<target>System.out</target>
+		<encoder class="com.ec.log.logback.ECPatternLayoutEncoder">
+        	<charset>utf-8</charset>
+            <pattern>%d{HH:mm:ss} %13mdc{threadid} %5level [%40.40logger{40}] %msg %ex %n </pattern>
+		</encoder>
+	</appender>
+
+	<root level="INFO">
+		<appender-ref ref="FILE" />
+		<appender-ref ref="CONSOLE" /> 
+		<!-- <appender-ref ref="REMOTE" /> -->
+	</root>
+
+	<logger name="ch.qos.logback" level="WARN" />
+	<logger name="org.hibernate" level="WARN" />
+	<logger name="org.hibernate.engine.StatefulPersistenceContext.ProxyWarnLog" level="ERROR" />
+	<logger name="org.springframework" level="TRACE" />
+
+	<logger name="se.familjensmas" level="TRACE"/>	
+</configuration>
