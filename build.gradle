@@ -1,78 +1,16 @@
-buildscript {
-	repositories {
-		maven {
-			url 'https://git.trouthunter.org/artifactory/plugins-release'
-			credentials {
-				username = "${artifactory_user}"
-				password = "${artifactory_password}"
-			}
-		}
-	}
-	dependencies {
-		classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '2.2.3')
-	}
+task wrapper(type: Wrapper) {
+	gradleVersion = '1.11'
 }
-
-task wrapper(type: Wrapper) { gradleVersion = '1.11' }
 
 apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'jetty'
-apply plugin: 'artifactory'
 
 version =  '0.1.0'
 
-artifactory {
-	contextUrl = "${artifactory_contextUrl}"   //The base Artifactory URL if not overridden by the publisher/resolver
-	publish {
-		defaults {  publishPom = false }
-		contextUrl = "https://git.trouthunter.org/artifactory"
-		repository {
-			repoKey = 'libs-release-local'
-			username = "${artifactory_user}"
-			password = "${artifactory_password}"
-			maven = true
-		}
-
-	}
-	resolve {
-		contextUrl = "https://git.trouthunter.org/artifactory"
-		repository {
-			repoKey = 'libs-release'
-			username = "${artifactory_user}"
-			password = "${artifactory_password}"
-			maven = true
-		}
-	}
-}
-
-
-sourceSets {
-	main {
-		java {
-			srcDirs "src/main/java"
-			output.classesDir "bin"
-		}
-	}
-	test {
-		java {
-			srcDirs "src/test/java"
-			output.classesDir "bin"
-		}
-	}
-}
-
-
 repositories {
-	maven {
-		url 'https://git.trouthunter.org/artifactory/plugins-release'
-		credentials {
-			username = "${artifactory_user}"
-			password = "${artifactory_password}"
-		}
-	}
+	mavenCentral()
 }
-
 
 dependencies {
 	compile "org.springframework:spring-context:4.0.+",
@@ -95,29 +33,22 @@ dependencies {
 			"org.mockito:mockito-all:1.9.5",
 			"org.mortbay.jetty:servlet-api:3.+",
 			"ch.qos.logback:logback-classic:1.+",
-			"org.seleniumhq.selenium:selenium-java:2.+",
-			"com.entercash:eccliutils:2.+",
-			"com.entercash:ec-core:1.+",
-			"com.entercash:ec-logcli:1.+",
-			"mysql:mysql-connector-java:5.+"
+			"mysql:mysql-connector-java:5.+",
+			"com.google.code.gson:gson:2.+"
 			
-	compile('org.apache.activemq:activemq-all:5.9.0') {
-        exclude module: 'slf4j-log4j12'
-    }
-	
+	compile('com.pi4j:pi4j-core:0.+') {
+		exclude module: 'pi4j-native'
+	}
 }
-// end::dependencies
 
 jettyRunWar.contextPath = ''
 
-httpPort = 8081
-stopPort = 8091
+httpPort = 8086
+stopPort = 8096
 stopKey = 'stopKey'
 
 jettyRun { 
-//	 jettyRun.daemon = true
 	reload = "manual"
-	enableAssertions = true
 }
 
 jettyStop {

@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+	<head>
+    	<meta charset="utf-8" />
+    	<title>Door</title>
+	</head>
+	<body>
+		<style>
+			.x {
+				font-size: 15px;
+			}
+		</style>
+	    <script src="../js/jquery-2.1.1.min.js"></script>
+    	<script>
+ 			$( document ).ready(function() {
+    			$( ".x" ).click(function( event ) {
+    				var value = $(this).attr("value");
+ 			       	$.ajax({
+					  url: "push.json",
+					  data: {
+					  	key: value
+					  }
+						}).done(function() {
+  						
+						});
+    			});
+ 			});
+	    </script>
+	    <table>
+	    	<tr>
+	    		<td>
+	    			<input type="button" value="1" class="x"/>
+	    		</td>
+	    		<td>
+	    			<input type="button" value="2" class="x"/>
+	    		</td>
+	    		<td>
+	    			<input type="button" value="3" class="x"/>
+	    		</td>
+	    	</tr>
+	    	<tr>
+	    		<td>
+	    			<input type="button" value="4" class="x"/>
+	    		</td>
+	    		<td>
+	    			<input type="button" value="5" class="x"/>
+	    		</td>
+	    		<td>
+	    			<input type="button" value="6" class="x"/>
+	    		</td>
+	    	</tr>
+	    	<tr>
+	    		<td>
+	    			<input type="button" value="7" class="x"/>
+	    		</td>
+	    		<td>
+	    			<input type="button" value="8" class="x"/>
+	    		</td>
+	    		<td>
+	    			<input type="button" value="9" class="x"/>
+	    		</td>
+	    	</tr>
+	    	<tr>
+	    		<td>
+	    			<input type="button" value="*" class="x"/>
+	    		</td>
+	    		<td>
+	    			<input type="button" value="0" class="x"/>
+	    		</td>
+	    		<td>
+	    			<input type="button" value="#" class="x"/>
+	    		</td>
+	    	</tr>
+	    </table>
+	</body>
+</html>

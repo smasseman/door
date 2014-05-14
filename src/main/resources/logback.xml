@@ -2,22 +2,13 @@
 
 	<contextName>door</contextName>
 
-	<turboFilter class="com.ec.log.logback.InsertThreadId" />
-
-<!-- 	<appender name="REMOTE" class="com.ec.log.logback.StreamAppender">
-		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-			<level>INFO</level>
-		</filter>
-		<serverAddress>logdb</serverAddress>
-	</appender>
- -->
 	<appender name="FILE"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<fileNamePattern>${jetty.home}/logs/door_%d{yyyy-MM-dd}.log
 			</fileNamePattern>
 		</rollingPolicy>
-		<encoder class="com.ec.log.logback.ECPatternLayoutEncoder">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
         	<charset>utf-8</charset>
             <pattern>%d{HH:mm:ss} %13mdc{threadid} %5level [%40.40logger{40}] %msg %ex %n </pattern>
 		</encoder>
@@ -25,7 +16,7 @@
 
 	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
 		<target>System.out</target>
-		<encoder class="com.ec.log.logback.ECPatternLayoutEncoder">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
         	<charset>utf-8</charset>
             <pattern>%d{HH:mm:ss} %13mdc{threadid} %5level [%40.40logger{40}] %msg %ex %n </pattern>
 		</encoder>
