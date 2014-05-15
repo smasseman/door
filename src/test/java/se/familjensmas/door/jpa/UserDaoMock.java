@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import se.familjensmas.door.dt.User;
+import se.familjensmas.door.dt.UserEvent;
 
 /**
  * @author jorgen.smas@entercash.com
@@ -29,5 +30,22 @@ public class UserDaoMock implements UserDao {
 	@Override
 	public List<User> getAllUsers() {
 		return users;
+	}
+
+	@Override
+	public void add(UserEvent event) {
+	}
+
+	@Override
+	public void update(User user) {
+	}
+
+	@Override
+	public User getById(Long id) {
+		for (User user : users) {
+			if (id.equals(user.getId()))
+				return user;
+		}
+		return null;
 	}
 }

@@ -1,0 +1,9 @@
+#parse("admin/header.html")
+	<form method="POST" action="savenewuser.html">
+		<input placeholder="Namn" name="name"/><br/>
+		<input placeholder="Kod" name="code"/><br/>
+		<input placeholder="Aktiv" title="Aktiv" type="checkbox" name="active" checked='checked'/><br/>
+		<input type="submit" value="Spara"/>
+	</form>
+	<a href="index.html">Tillbaka till start.</a>
+#parse("admin/footer.html")

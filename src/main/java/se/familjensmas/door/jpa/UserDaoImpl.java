@@ -12,6 +12,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import se.familjensmas.door.dt.User;
+import se.familjensmas.door.dt.UserEvent;
 
 /**
  * @author jorgen.smas@entercash.com
@@ -24,7 +25,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public User getUserByCode(String code) {
-		Session session = sessionFactory.getCurrentSession();
+		Session session = session();
 		Criteria crit = session.createCriteria(User.class);
 		crit.add(Restrictions.eq("code", code));
 		User user = (User) crit.uniqueResult();
@@ -33,16 +34,35 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public void add(User user) {
-		sessionFactory.getCurrentSession().save(user);
+		session().save(user);
 	}
 
 	@Override
 	public List<User> getAllUsers() {
 		List<User> result = new LinkedList<>();
-		for (Object obj : sessionFactory.getCurrentSession().createCriteria(User.class).list()) {
+		for (Object obj : session().createCriteria(User.class).list()) {
 			if (!result.contains(obj))
 				result.add((User) obj);
 		}
 		return result;
+	}
+
+	private Session session() {
+		return sessionFactory.getCurrentSession();
+	}
+
+	@Override
+	public void add(UserEvent event) {
+		session().save(event);
+	}
+
+	@Override
+	public void update(User user) {
+		session().update(user);
+	}
+
+	@Override
+	public User getById(Long id) {
+		return (User) session().get(User.class, id);
 	}
 }

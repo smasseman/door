@@ -10,7 +10,7 @@ import se.familjensmas.door.dt.User;
  * @author jorgen.smas@entercash.com
  */
 @Service
-public class EventListenerImpl implements EventListener {
+public class LogEventListener implements EventListener {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 

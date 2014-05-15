@@ -1,12 +1,19 @@
 package se.familjensmas.door.dt;
 
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  * @author jorgen.smas@entercash.com
  */
+@Entity
 public class User {
 
 	@Id
@@ -18,6 +25,11 @@ public class User {
 	private boolean activated;
 
 	private String name;
+
+	private Date latestAction;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	private List<UserEvent> events;
 
 	public Long getId() {
 		return id;
@@ -79,5 +91,21 @@ public class User {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public Date getLatestAction() {
+		return latestAction;
+	}
+
+	public void setLatestAction(Date latestAction) {
+		this.latestAction = latestAction;
+	}
+
+	public List<UserEvent> getEvents() {
+		return events;
+	}
+
+	public void setEvents(List<UserEvent> events) {
+		this.events = events;
 	}
 }

@@ -1,0 +1,28 @@
+#parse("admin/header.html")
+	<table>
+			<tr>
+				<td>Namn</td>
+				<td>$user.name</td>
+			</tr>
+			<tr>
+				<td>Aktiverad</td>
+				<td>
+					#if( $user.activated )
+						Ja
+					#else
+						Nej
+					#end
+				</td>
+			</tr>
+			<tr>
+				<td>Senast aktiv</td>
+				<td>$!dateTool.format("yyyy-MM-dd HH:mm",$user.latestAction)</td>
+			</tr>
+			<tr>
+				<td>Kod</td>
+				<td>$user.code</td>
+			</tr>
+	</table>
+<br/>
+<a href="index.html">Visa alla</a>
+#parse("admin/footer.html")

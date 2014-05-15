@@ -1,5 +1,7 @@
 package se.familjensmas.door;
 
+import java.util.Collection;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
@@ -31,6 +33,7 @@ public class Brain {
 	@Resource
 	private Door door;
 	@Resource
+	private Collection<EventListener> eventListeners;
 	private EventListener eventListener;
 
 	private enum Mode {
@@ -39,6 +42,8 @@ public class Brain {
 
 	@PostConstruct
 	public void init() {
+		if (this.eventListener == null)
+			this.eventListener = new MultiEventListener(eventListeners);
 		keypad.addListener(new ButtonListener() {
 
 			@Override

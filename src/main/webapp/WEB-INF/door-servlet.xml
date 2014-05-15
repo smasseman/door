@@ -17,11 +17,22 @@
 			<mvc:mapping path="/**/*.html" />
 			<ref bean="openSessionInViewInterceptor" />
 		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**/*.html" />
+			<ref bean="dateToolInterceptor" />
+		</mvc:interceptor>
 	</mvc:interceptors>
 
 	<bean name="openSessionInViewInterceptor"
 		class="org.springframework.orm.hibernate4.support.OpenSessionInViewInterceptor"
 		p:sessionFactory-ref="sessionFactory" />
+
+	<bean name="dateToolInterceptor" class="se.familjensmas.door.web.AddObjectToModel">
+		<property name="attributeName" value="dateTool" />
+		<property name="attributeValue">
+			<bean class="org.apache.velocity.tools.generic.DateTool" />
+		</property>
+	</bean>
 
 	<bean id="velocityEngine"
 		class="org.springframework.ui.velocity.VelocityEngineFactoryBean"

@@ -1,0 +1,19 @@
+table {
+	border-collapse:collapse;
+}
+
+td {
+	padding-right: 15px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-bottom: 1px solid black;
+	border-top: 1px solid black;
+}
+tr:nth-child(odd)
+{
+background:#F3F3F3;
+}
+tr:nth-child(even)
+{
+background:#DDDDDD;
+}

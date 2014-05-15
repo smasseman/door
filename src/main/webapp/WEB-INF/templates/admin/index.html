@@ -1,6 +1,22 @@
 #parse("admin/header.html")
-Hello admin.
-$foo
+	<table>
+		#foreach( $user in $users )
+			<tr>
+				<td>$user.name</td>
+				<td>$!dateTool.format("yyyy-MM-dd HH:mm",$user.latestAction)</td>
+				<td>
+					#if( $user.activated )
+						Aktiverad
+					#else
+						Ej aktiverad
+					#end
+				</td>
+				<td>
+					<a href="userdetails.html?id=${user.id}">Mera...</a>
+				</td>
+			</tr>
+		#end
+	</table>
 <br/>
-Current door state is <span style="border: 1px solid black; background: DDDDDD; font-weight: bold;">$door.state</span>
+<a href="newuser.html">Ny annvändare</a>
 #parse("admin/footer.html")
