@@ -49,9 +49,11 @@
 		p:viewClass="org.springframework.web.servlet.view.velocity.VelocityView" />
 
 	<beans profile="default">
-		<bean class="java.lang.String">
-			<constructor-arg value="hejsan" />
-		</bean>
+		<bean class="se.familjensmas.door.ServoMock" />
+	</beans>
+
+	<beans profile="pi">
+		<bean class="se.familjensmas.door.pi4j.BlasterServo" />
 	</beans>
 
 </beans>

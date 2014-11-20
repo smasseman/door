@@ -35,4 +35,25 @@ public class MultiEventListener implements EventListener {
 			listener.unlockAttemptByDeactivatedUser(user);
 		}
 	}
+
+	@Override
+	public void lockWithWrongCode(String code) {
+		for (EventListener listener : listeners) {
+			listener.lockWithWrongCode(code);
+		}
+	}
+
+	@Override
+	public void locked(User user) {
+		for (EventListener listener : listeners) {
+			listener.locked(user);
+		}
+	}
+
+	@Override
+	public void lockAttemptByDeactivatedUser(User user) {
+		for (EventListener listener : listeners) {
+			listener.lockAttemptByDeactivatedUser(user);
+		}
+	}
 }

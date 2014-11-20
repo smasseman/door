@@ -27,9 +27,14 @@ public class AddEventToDatabase implements EventListener {
 
 	@Override
 	public void unlocked(User user) {
+		EventType et = EventType.UNLOCK;
+		addEvent(user, et);
+	}
+
+	private void addEvent(User user, EventType et) {
 		user.setLatestAction(new Date());
 		UserEvent event = new UserEvent();
-		event.setEventType(EventType.UNLOCK);
+		event.setEventType(et);
 		event.setTs(new Date());
 		event.setUser(user);
 		dao.add(event);
@@ -40,5 +45,21 @@ public class AddEventToDatabase implements EventListener {
 	@Override
 	public void unlockAttemptByDeactivatedUser(User user) {
 		// Not logged.
+	}
+
+	@Override
+	public void lockWithWrongCode(String code) {
+		// Not logged.
+	}
+
+	@Override
+	public void locked(User user) {
+		EventType et = EventType.LOCK;
+		addEvent(user, et);
+	}
+
+	@Override
+	public void lockAttemptByDeactivatedUser(User user) {
+		// Not logged
 	}
 }

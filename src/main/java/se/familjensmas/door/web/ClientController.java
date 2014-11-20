@@ -3,7 +3,6 @@ package se.familjensmas.door.web;
 import java.io.IOException;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -49,13 +48,8 @@ public class ClientController {
 
 	private void writeJson(PushResponse r, HttpServletResponse resp) throws IOException {
 		String json = new GsonBuilder().setPrettyPrinting().create().toJson(r);
-		byte[] data = json.getBytes("utf-8");
-		resp.setContentType("application/json");
-		resp.setCharacterEncoding("utf-8");
-		resp.setContentLength(data.length);
-		ServletOutputStream out = resp.getOutputStream();
-		out.write(data);
-		logger.debug("Written:\n" + json);
+		WebUtil.writeJson(json, resp);
+		// logger.trace("Written:\n" + json);
 	}
 
 	@ExceptionHandler(HttpException.class)

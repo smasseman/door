@@ -64,6 +64,7 @@ public class Brain {
 			if (mode == null)
 				return;
 			chars.append(button.getSign());
+			logger.debug("Current input buffer: " + chars);
 			if (chars.length() == 4) {
 				String code = chars.toString();
 				resetCode();
@@ -79,7 +80,24 @@ public class Brain {
 	}
 
 	private void attemptToClose(String code) {
-		logger.error("Unimplemented.");
+		TransactionStatus tx = txMgr.getTransaction(new DefaultTransactionDefinition());
+		try {
+			User user = userDao.getUserByCode(code);
+			if (user == null) {
+				eventListener.lockWithWrongCode(code);
+			} else {
+				if (user.isActivated()) {
+					getDoor().lock();
+					eventListener.locked(user);
+				} else {
+					eventListener.lockAttemptByDeactivatedUser(user);
+				}
+			}
+			txMgr.commit(tx);
+		} finally {
+			if (!tx.isCompleted())
+				txMgr.rollback(tx);
+		}
 	}
 
 	private void attemptToOpen(String code) {
@@ -105,6 +123,7 @@ public class Brain {
 
 	private void resetCode() {
 		chars.delete(0, chars.length());
+		logger.debug("Current input buffer cleared.");
 	}
 
 	public PlatformTransactionManager getTxMgr() {

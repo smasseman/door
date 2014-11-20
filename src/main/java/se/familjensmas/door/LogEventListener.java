@@ -28,4 +28,19 @@ public class LogEventListener implements EventListener {
 	public void unlockAttemptByDeactivatedUser(User user) {
 		logger.warn("Non active user tried to unlock door. " + user);
 	}
+
+	@Override
+	public void lockWithWrongCode(String code) {
+		logger.warn("Invalid code was used when attempting to lock door. Code=" + code);
+	}
+
+	@Override
+	public void locked(User user) {
+		logger.info("Door is locked by " + user);
+	}
+
+	@Override
+	public void lockAttemptByDeactivatedUser(User user) {
+		logger.warn("Non active user tried to lock door. " + user);
+	}
 }

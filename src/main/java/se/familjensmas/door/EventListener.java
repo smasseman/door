@@ -13,4 +13,10 @@ public interface EventListener {
 
 	void unlockAttemptByDeactivatedUser(User user);
 
+	void lockWithWrongCode(String code);
+
+	void locked(User user);
+
+	void lockAttemptByDeactivatedUser(User user);
+
 }

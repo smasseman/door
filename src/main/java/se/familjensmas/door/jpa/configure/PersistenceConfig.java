@@ -46,11 +46,9 @@ public class PersistenceConfig {
 	@Bean
 	public DataSource restDataSource() {
 		logger.debug("ENV=" + env);
-		com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource dataSource = new com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource();
-		dataSource.setUrl(env.getRequiredProperty("jdbc.url"));
-		dataSource.setUser(env.getRequiredProperty("jdbc.user"));
-		dataSource.setPassword(env.getRequiredProperty("jdbc.pass"));
-		return dataSource;
+		org.h2.jdbcx.JdbcDataSource ds = new org.h2.jdbcx.JdbcDataSource();
+		ds.setUrl(env.getRequiredProperty("jdbc.url"));
+		return ds;
 	}
 
 	@Bean
@@ -58,7 +56,6 @@ public class PersistenceConfig {
 	public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
 		HibernateTransactionManager txManager = new HibernateTransactionManager();
 		txManager.setSessionFactory(sessionFactory);
-
 		return txManager;
 	}
 
@@ -70,7 +67,7 @@ public class PersistenceConfig {
 	Properties hibernateProperties() {
 		Properties p = new Properties();
 		p.setProperty("hibernate.hbm2ddl.auto", env.getRequiredProperty("hibernate.hbm2ddl.auto"));
-		p.setProperty("hibernate.dialect", org.hibernate.dialect.MySQL5InnoDBDialect.class.getName());
+		p.setProperty("hibernate.dialect", org.hibernate.dialect.H2Dialect.class.getName());
 		return p;
 	}
 }
